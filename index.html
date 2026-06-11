@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro Bolsa Família — E.E. Mª do SOCORRO A. SMITH</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f4f4f0;
+      color: #1a1a1a;
+      min-height: 100vh;
+    }
+
+    .app-header {
+      background: #ffffff;
+      border-bottom: 1px solid #e0e0d8;
+      padding: 1.25rem 1rem;
+      text-align: center;
+    }
+
+    .school-name {
+      font-size: 17px;
+      font-weight: 600;
+      color: #1a1a1a;
+      letter-spacing: 0.01em;
+      line-height: 1.3;
+    }
+
+    .app-sub {
+      font-size: 13px;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    .sheets-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: #2d7a3a;
+      background: #e8f5e9;
+      border: 1px solid #a5d6a7;
+      border-radius: 999px;
+      padding: 3px 10px;
+      margin-top: 8px;
+    }
+
+    .app-wrapper {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 2rem;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #e0e0d8;
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .field-group { margin-bottom: 1.1rem; }
+    .field-group:last-child { margin-bottom: 0; }
+
+    .field-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #555;
+      margin-bottom: 6px;
+    }
+
+    .field-hint {
+      font-size: 11px;
+      color: #999;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .field-input {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 15px;
+      font-family: inherit;
+      color: #1a1a1a;
+      background: #f9f9f6;
+      border: 1px solid #d0d0c8;
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .field-input:focus {
+      border-color: #1a73e8;
+      box-shadow: 0 0 0 3px rgba(26,115,232,0.12);
+      background: #fff;
+    }
+
+    .field-input.error { border-color: #d32f2f; }
+
+    .error-msg {
+      font-size: 12px;
+      color: #d32f2f;
+      margin-top: 4px;
+      display: none;
+    }
+    .error-msg.visible { display: block; }
+
+    .nis-input-wrap { position: relative; display: flex; align-items: center; }
+    .nis-input-wrap .field-input {
+      letter-spacing: 0.06em;
+      padding-right: 56px;
+      font-family: 'Courier New', monospace;
+    }
+
+    .nis-counter {
+      position: absolute;
+      right: 12px;
+      font-size: 12px;
+      color: #aaa;
+      pointer-events: none;
+      font-family: monospace;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: inherit;
+      background: #1a73e8;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-submit:hover { background: #1558b0; }
+    .btn-submit:active { transform: scale(0.98); }
+    .btn-submit:disabled { background: #90b8f5; cursor: not-allowed; }
+
+    .success-panel {
+      display: none;
+      background: #e8f5e9;
+      border: 1px solid #a5d6a7;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .success-panel.visible { display: block; }
+
+    .success-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #c8e6c9;
+      border: 2px solid #81c784;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      color: #2d7a3a;
+      font-size: 26px;
+    }
+
+    .success-panel h2 {
+      font-size: 17px;
+      font-weight: 600;
+      color: #2d7a3a;
+      margin-bottom: 8px;
+    }
+
+    .success-data {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 1.25rem;
+      line-height: 1.7;
+    }
+    .success-data strong { color: #1a1a1a; font-weight: 600; }
+
+    .error-panel {
+      display: none;
+      background: #fdecea;
+      border: 1px solid #f5c6c6;
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+      margin-bottom: 1rem;
+      font-size: 14px;
+      color: #c62828;
+    }
+    .error-panel.visible { display: block; }
+
+    .records-section { margin-top: 1.5rem; }
+
+    .records-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .records-title { font-size: 13px; font-weight: 600; color: #555; }
+
+    .records-count {
+      font-size: 12px;
+      background: #ececec;
+      color: #888;
+      padding: 2px 10px;
+      border-radius: 999px;
+    }
+
+    .records-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 240px;
+      overflow-y: auto;
+    }
+
+    .record-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      background: #fff;
+      border: 1px solid #e0e0d8;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+
+    .record-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #e3f2fd;
+      color: #1565c0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .record-name { font-weight: 500; color: #1a1a1a; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .record-nis { font-family: monospace; font-size: 12px; color: #aaa; flex-shrink: 0; }
+
+    .empty-state { text-align: center; padding: 1rem; font-size: 13px; color: #aaa; }
+  </style>
+</head>
+<body>
+
+  <div class="app-header">
+    <div class="school-name">E.E. Mª do SOCORRO A. SMITH</div>
+    <div class="app-sub">Atualização cadastral de alunos cadastrados no Bolsa Família</div>
+    <div style="display:flex; justify-content:center; margin-top:8px;">
+      <span class="sheets-badge">
+        <i class="ti ti-table"></i>
+        Conectado ao Google Sheets
+      </span>
+    </div>
+  </div>
+
+  <div class="app-wrapper">
+
+    <div id="formSection">
+      <div class="error-panel" id="errorPanel">
+        <i class="ti ti-alert-circle"></i> Erro ao enviar. Verifique sua conexão e tente novamente.
+      </div>
+
+      <div class="card">
+        <div class="field-group">
+          <label class="field-label" for="nomeAluno">Nome completo do aluno</label>
+          <input class="field-input" type="text" id="nomeAluno" placeholder="Ex: Maria Aparecida da Silva" autocomplete="off" />
+          <span class="error-msg" id="nomeError">Por favor, informe o nome completo do aluno.</span>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="nisAluno">NIS — Número de Identificação Social</label>
+          <span class="field-hint">11 dígitos, somente números</span>
+          <div class="nis-input-wrap">
+            <input class="field-input" type="text" id="nisAluno" placeholder="00000000000" inputmode="numeric" maxlength="11" autocomplete="off" />
+            <span class="nis-counter" id="nisCounter">0/11</span>
+          </div>
+          <span class="error-msg" id="nisError">O NIS deve conter exatamente 11 dígitos.</span>
+        </div>
+      </div>
+
+      <button type="button" class="btn-submit" id="btnSubmit">
+        <i class="ti ti-send"></i>
+        Enviar dados
+      </button>
+    </div>
+
+    <div class="success-panel" id="successPanel">
+      <div class="success-icon">
+        <i class="ti ti-check"></i>
+      </div>
+      <h2>Dados enviados!</h2>
+      <div class="success-data" id="successData"></div>
+      <button type="button" class="btn-submit" id="btnNew">
+        <i class="ti ti-user-plus"></i>
+        Cadastrar outro aluno
+      </button>
+    </div>
+
+    <div class="records-section" id="recordsSection" style="display:none">
+      <div class="records-header">
+        <span class="records-title">Enviados nesta sessão</span>
+        <span class="records-count" id="recordsCount">0</span>
+      </div>
+      <div class="records-list" id="recordsList">
+        <div class="empty-state">Nenhum cadastro ainda.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzMdf1lQ4bj26dnUb0MmmqTy1dd8fhM6y00SCMTdSRPhTIA1JrntZQtWFqdsN1CPI25/exec';
+    const records = [];
+
+    const nomeInput = document.getElementById('nomeAluno');
+    const nisInput = document.getElementById('nisAluno');
+    const nisCounter = document.getElementById('nisCounter');
+    const nomeError = document.getElementById('nomeError');
+    const nisError = document.getElementById('nisError');
+    const btnSubmit = document.getElementById('btnSubmit');
+    const btnNew = document.getElementById('btnNew');
+    const successPanel = document.getElementById('successPanel');
+    const successData = document.getElementById('successData');
+    const formSection = document.getElementById('formSection');
+    const errorPanel = document.getElementById('errorPanel');
+    const recordsSection = document.getElementById('recordsSection');
+    const recordsList = document.getElementById('recordsList');
+    const recordsCount = document.getElementById('recordsCount');
+
+    nisInput.addEventListener('input', () => {
+      nisInput.value = nisInput.value.replace(/\D/g, '').slice(0, 11);
+      nisCounter.textContent = nisInput.value.length + '/11';
+      nisInput.classList.remove('error');
+      nisError.classList.remove('visible');
+    });
+
+    nomeInput.addEventListener('input', () => {
+      nomeInput.classList.remove('error');
+      nomeError.classList.remove('visible');
+    });
+
+    function formatNIS(nis) {
+      return nis.replace(/(\d{3})(\d{5})(\d{3})/, '$1.$2.$3');
+    }
+
+    function initials(name) {
+      const parts = name.trim().split(/\s+/);
+      if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    }
+
+    function renderRecords() {
+      recordsCount.textContent = records.length;
+      if (records.length === 0) {
+        recordsList.innerHTML = '<div class="empty-state">Nenhum cadastro ainda.</div>';
+        return;
+      }
+      recordsList.innerHTML = records.map(r => `
+        <div class="record-item">
+          <div class="record-avatar">${initials(r.nome)}</div>
+          <span class="record-name">${r.nome}</span>
+          <span class="record-nis">${formatNIS(r.nis)}</span>
+        </div>
+      `).join('');
+    }
+
+    btnSubmit.addEventListener('click', async () => {
+      let valid = true;
+      const nome = nomeInput.value.trim();
+      const nis = nisInput.value.trim();
+
+      errorPanel.classList.remove('visible');
+
+      if (nome.length < 3) {
+        nomeInput.classList.add('error');
+        nomeError.classList.add('visible');
+        valid = false;
+      }
+
+      if (nis.length !== 11) {
+        nisInput.classList.add('error');
+        nisError.classList.add('visible');
+        valid = false;
+      }
+
+      if (!valid) return;
+
+      btnSubmit.disabled = true;
+      btnSubmit.innerHTML = '<i class="ti ti-loader"></i> Enviando...';
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nome, nis })
+        });
+
+        records.unshift({ nome, nis });
+
+        successData.innerHTML = `
+          <strong>${nome}</strong><br>
+          NIS: <strong>${formatNIS(nis)}</strong><br>
+          <span style="font-size:12px; color:#888;">Salvo na planilha Google Sheets</span>
+        `;
+
+        formSection.style.display = 'none';
+        successPanel.classList.add('visible');
+        recordsSection.style.display = 'block';
+        renderRecords();
+
+      } catch (err) {
+        errorPanel.classList.add('visible');
+      } finally {
+        btnSubmit.disabled = false;
+        btnSubmit.innerHTML = '<i class="ti ti-send"></i> Enviar dados';
+      }
+    });
+
+    btnNew.addEventListener('click', () => {
+      nomeInput.value = '';
+      nisInput.value = '';
+      nisCounter.textContent = '0/11';
+      nomeInput.classList.remove('error');
+      nisInput.classList.remove('error');
+      nomeError.classList.remove('visible');
+      nisError.classList.remove('visible');
+      errorPanel.classList.remove('visible');
+      successPanel.classList.remove('visible');
+      formSection.style.display = 'block';
+      nomeInput.focus();
+    });
+  </script>
+
+</body>
+</html>
